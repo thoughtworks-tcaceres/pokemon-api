@@ -1,0 +1,27 @@
+{
+  "name": "pokemon-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tylercaceres/pokemon-api.git"
+  },
+  "keywords": [
+    "pokemon"
+  ],
+  "author": "tyler caceres",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tylercaceres/pokemon-api/issues"
+  },
+  "homepage": "https://github.com/tylercaceres/pokemon-api#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  }
+}
