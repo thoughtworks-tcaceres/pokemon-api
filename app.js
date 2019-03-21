@@ -1,22 +1,71 @@
-var express = require(express),
+var express = require("express"),
     app     = express(),
-    request = require("request");
+    request = require("request"),
+    async = require("async"),
+    bodyParser = require("body-parser");
 
+app.use(bodyParser.urlencoded({extended: true}));
 //default view engine, no longer need to add .ejs
+//public folder for stylesheets/scripts
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 
-//landing page
+
 app.get("/", (req, res) => {
-    res.render("landing");
-});
-
-app.get("/home", (req, res) => {
    res.render("index"); 
 });
 
+app.post("/pokemon/", (req, res) => {
+    var url1 = "https://pokeapi.co/api/v2/pokemon/" + req.body.pokeName;
+    var url2 = "https://pokeapi.co/api/v2/pokemon/" + req.body.pokeName + "/encounters";
+    async.parallel([
+        function(next){
+            request(url1, (error, response, body) => {
+                if(!error && response.statusCode === 200) {
+                    var data = JSON.parse(body);
+                    return next(null, data);
+                }
+                console.log("API request 1 error:" + error)
+                next(error);
+            });
+        },
+        function(next){
+            request(url2, (error, response, body) => {
+                if(!error && response.statusCode === 200) {
+                    var data2 = JSON.parse(body);
+                    return next(null, data2);
+                }
+                console.log("API request 2 error:" + error)
+                next(error);
+            });
+        }],
+        function(err, results){
+            res.render("pokemon/show", {
+                                data:results[0],
+                                data2:results[1]
+                                });
+        });
+});
+//     request(url, (error, response, body) => {
+//         if(!error && response.statusCode === 200){
+//             var data = JSON.parse(body);
+//         }
+//             request(url2, (error2, response2, body2) => {
+//                 if(!error2 && response2.statusCode === 200){
+//                     var data2 = JSON.parse(body2);
+//                 } else {
+//                     data2 = {};
+//                 }
+//                 res.render("pokemon/show", {
+//                                     data:data,
+//                                     data2:data2
+//                                     });
+//             });
+//         }
+//   });
+
 //error page
 app.get("*", (req, res) => {
-    console.log("Error. Page not found.");
     res.send("Error. Page not found.");
 });
 

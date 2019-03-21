@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/tylercaceres/pokemon-api#readme",
   "dependencies": {
+    "async": "^2.6.2",
+    "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "request": "^2.88.0"

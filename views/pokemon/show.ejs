@@ -1,0 +1,163 @@
+<% include ../partials/header.ejs %>
+
+<div class="container-fluid">
+    <div class="row" id="row1">
+        <div class="col-4">
+            <h3>INFO</h3>
+            <!-- generic info -->
+            ID: <%= data.id %>
+            name: <%= data.name %>
+            base experience: <%= data.base_experience %>
+            height: <%= data.height*10 %> cm
+            weight: <%= data.weight/10 %> kg
+        </div>
+        <div class="col-8">
+            <!-- stats -->
+            <h3>STATS</h3>
+            <h5>BASE STATS</h5>
+            <% data.stats.forEach(stat => { %>
+                <%= stat.base_stat %>
+                <%= stat.stat.name %>
+            <% }); %>
+            <h5>EFFORT VALUES</h5>
+            <% data.stats.forEach(stat => { %>
+                <%= stat.effort %>
+                <%= stat.stat.name %>
+            <% }); %>
+        </div>
+    </div>
+    
+    <div class="row" id="row2">
+        <!-- sprites -->
+        <% for(var key in data.sprites){ %>
+            <% if(data.sprites[key] != null) {%>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text"><%=key.toUpperCase().replace(/_/g," ")%></p>
+                        </div>
+                        <img src="<%=data.sprites[key]%>" class="card-img-top" alt="<%=key%>">
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+    
+    <div class="row" id="row3">
+        <div class="col-4">
+            <!-- types -->
+            <h3>TYPE</h3>
+            <% data.types.forEach(type => { %>
+                <%= type.type.name %>
+            <% }); %>
+        </div>
+        <div class="col-8">
+            <!-- abilities -->
+            <h3>ABILITIES</h3>
+            <% data.abilities.forEach(ability => { %>
+                <%= ability.ability.name %>
+            <% }); %>
+        </div>
+    </div>
+    
+    <div class="row" id="row4">
+        <div class="col-6">
+            <!-- games -->
+            <h3>GAMES</h3>
+            <ul class="list-unstyled">
+                <% data.game_indices.forEach(game => { %>
+                <li>
+                    <%= game.version.name %>
+                </li>
+            <% }); %>
+            </ul>
+        </div>
+        <div class="col-6">
+            <!-- held items -->
+            <h3>HELD ITEMS</h3>
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr class="table-danger">
+                        <th>GAME</th>
+                        <th>ITEM</th>
+                        <th>RARITY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.held_items.forEach(heldItem => { %>
+                        <% heldItem.version_details.forEach(heldItemVersion => { %>
+                            <tr>
+                                <td><%= heldItemVersion.version.name %></td>
+                                <td><%= heldItem.item.name %></td>
+                                <td><%= heldItemVersion.rarity %>%</td>
+                            </tr>
+                        <% }); %>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<div class="row" id="row5">
+    <div class="col">
+        <h3>LOCATIONS</h3>
+        <table class="table table-hover table-bordered table-sm">
+            <thead>
+                <tr class="table-danger">
+                    <th>GAME</th>
+                    <th>AREA</th>
+                    <th>CHANCE</th>
+                    <th>LEVEL RANGE</th>
+                    <th>METHOD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data2.forEach(location => { %>
+                    <% location.version_details.forEach(versionDetail => { %>
+                        <% versionDetail.encounter_details.forEach(encounterDetail => { %>
+                            <!-- table data for location information -->
+                            <tr>
+                                <td><%= versionDetail.version.name %></td>
+                                <td><%= location.location_area.name.replace(/-/g," ") %></td>
+                                <td><%= encounterDetail.chance %></td>
+                                <td><%= encounterDetail.min_level %> - <%= encounterDetail.max_level %></td>
+                                <td><%= encounterDetail.method.name %></td>
+                            </tr>
+                        <% }); %>
+                    <% }); %>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>   
+
+    <div class="row" id="row6">
+        <div class="col">
+            <!-- moves -->
+            <h3>MOVES</h3>
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr class="table-danger">
+                        <th>GAME</th>
+                        <th>MOVE</th>
+                        <th>LEVEL LEARNED</th>
+                        <th>METHOD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.moves.forEach(move => { %>
+                        <% move.version_group_details.forEach(moveDetail => { %>
+                            <tr>
+                                <td><%= moveDetail.version_group.name %></td>
+                                <td><%= move.move.name %></td>
+                                <td><%= moveDetail.level_learned_at %></td>
+                                <td><%= moveDetail.move_learn_method.name %></td>
+                            </tr>
+                        <% }); %>
+                    <% }); %>
+        </div>
+    </div>
+
+</div>
+
+<% include ../partials/footer.ejs %>

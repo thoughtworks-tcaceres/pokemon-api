@@ -1,0 +1,12 @@
+<% include ./partials/header.ejs %>
+<p>POKEMON API TESTING</p>
+<form action="/pokemon/" method="POST">
+  <div class="form-group">
+    <label for="pokeName">Pokemon Name</label>
+    <input type="text" class="form-control" id="pokeName" name="pokeName" aria-describedby="pokeNameHelp" placeholder="Enter name of a pokemon">
+    <small id="pokeNameHelp" class="form-text text-muted">Enter the name of a pokemon (e.g.: magmar, pikachu, charizard, ...)</small>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<% include ./partials/footer.ejs %>
