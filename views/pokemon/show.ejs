@@ -1,163 +1,295 @@
 <% include ../partials/header.ejs %>
 
-<div class="container-fluid">
-    <div class="row" id="row1">
-        <div class="col-4">
-            <h3>INFO</h3>
-            <!-- generic info -->
-            ID: <%= data.id %>
-            name: <%= data.name %>
-            base experience: <%= data.base_experience %>
-            height: <%= data.height*10 %> cm
-            weight: <%= data.weight/10 %> kg
+<section id="genericInfo" class="py-2 bg-white">
+    <div class="container">
+        <!-- title -->
+        <div class="row">
+            <div class="col text-center">
+                <h1 class="display-4 text-uppercase text-dark mb-0">
+                    <strong>info</strong>
+                </h1>
+                <div class="title-underline bg-danger"></div>
+                <p class="mt-1 text-capitalize text-muted">general information</p>
+            </div>
         </div>
-        <div class="col-8">
-            <!-- stats -->
-            <h3>STATS</h3>
-            <h5>BASE STATS</h5>
-            <% data.stats.forEach(stat => { %>
-                <%= stat.base_stat %>
-                <%= stat.stat.name %>
-            <% }); %>
-            <h5>EFFORT VALUES</h5>
-            <% data.stats.forEach(stat => { %>
-                <%= stat.effort %>
-                <%= stat.stat.name %>
-            <% }); %>
-        </div>
-    </div>
-    
-    <div class="row" id="row2">
-        <!-- sprites -->
-        <% for(var key in data.sprites){ %>
-            <% if(data.sprites[key] != null) {%>
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text"><%=key.toUpperCase().replace(/_/g," ")%></p>
-                        </div>
-                        <img src="<%=data.sprites[key]%>" class="card-img-top" alt="<%=key%>">
-                    </div>
-                </div>
-            <% } %>
-        <% } %>
-    </div>
-    
-    <div class="row" id="row3">
-        <div class="col-4">
-            <!-- types -->
-            <h3>TYPE</h3>
-            <% data.types.forEach(type => { %>
-                <%= type.type.name %>
-            <% }); %>
-        </div>
-        <div class="col-8">
-            <!-- abilities -->
-            <h3>ABILITIES</h3>
-            <% data.abilities.forEach(ability => { %>
-                <%= ability.ability.name %>
-            <% }); %>
-        </div>
-    </div>
-    
-    <div class="row" id="row4">
-        <div class="col-6">
-            <!-- games -->
-            <h3>GAMES</h3>
-            <ul class="list-unstyled">
-                <% data.game_indices.forEach(game => { %>
-                <li>
-                    <%= game.version.name %>
-                </li>
-            <% }); %>
-            </ul>
-        </div>
-        <div class="col-6">
-            <!-- held items -->
-            <h3>HELD ITEMS</h3>
-            <table class="table table-hover table-bordered table-sm">
-                <thead>
-                    <tr class="table-danger">
-                        <th>GAME</th>
-                        <th>ITEM</th>
-                        <th>RARITY</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% data.held_items.forEach(heldItem => { %>
-                        <% heldItem.version_details.forEach(heldItemVersion => { %>
-                            <tr>
-                                <td><%= heldItemVersion.version.name %></td>
-                                <td><%= heldItem.item.name %></td>
-                                <td><%= heldItemVersion.rarity %>%</td>
-                            </tr>
-                        <% }); %>
-                    <% }); %>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-<div class="row" id="row5">
-    <div class="col">
-        <h3>LOCATIONS</h3>
-        <table class="table table-hover table-bordered table-sm">
-            <thead>
-                <tr class="table-danger">
-                    <th>GAME</th>
-                    <th>AREA</th>
-                    <th>CHANCE</th>
-                    <th>LEVEL RANGE</th>
-                    <th>METHOD</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% data2.forEach(location => { %>
-                    <% location.version_details.forEach(versionDetail => { %>
-                        <% versionDetail.encounter_details.forEach(encounterDetail => { %>
-                            <!-- table data for location information -->
-                            <tr>
-                                <td><%= versionDetail.version.name %></td>
-                                <td><%= location.location_area.name.replace(/-/g," ") %></td>
-                                <td><%= encounterDetail.chance %></td>
-                                <td><%= encounterDetail.min_level %> - <%= encounterDetail.max_level %></td>
-                                <td><%= encounterDetail.method.name %></td>
-                            </tr>
-                        <% }); %>
-                    <% }); %>
+        <!-- end of title -->
+        
+        <!-- information -->
+        <div class="row">
+            <div class="col-4 col-md-3 col-lg-2 text-center my-1">
+                <i class="fas fa-sort-numeric-up fa-3x text-danger"></i>
+                <p class="lead text-capitalize my-1">pokedex #</p>
+                <p class="text-muted"><%= data.id %></p>
+            </div>
+            <div class="col-4 col-md-3 col-lg-2 text-center my-1">
+                <i class="fas fa-id-card fa-3x text-danger"></i>
+                <p class="lead text-capitalize my-1">name</p>
+                <p class="text-muted text-capitalize"><%= data.name %></p>
+            </div>
+            <div class="col-4 col-md-3 col-lg-2 text-center my-1">
+                <i class="fas fa-hat-wizard fa-3x text-danger"></i>
+                <p class="lead text-capitalize my-1">base exp</p>
+                <p class="text-muted"><%= data.base_experience %> exp</p>
+            </div>
+            <div class="col-4 col-md-3 col-lg-2 text-center my-1">
+                <i class="fas fa-ruler fa-3x text-danger"></i>
+                <p class="lead text-capitalize my-1">height</p>
+                <p class="text-muted"><%= data.height %> cm</p>
+            </div>
+            <div class="col-4 col-md-3 col-lg-2 text-center my-1">
+                <i class="fas fa-weight fa-3x text-danger"></i>
+                <p class="lead text-capitalize my-1">weight</p>
+                <p class="text-muted"><%= data.weight %> kg</p>
+            </div>
+            <div class="col-4 col-md-3 col-lg-2 text-center my-1">
+                <i class="fas fa-weight fa-3x text-danger"></i>
+                <p class="lead text-capitalize my-1">type</p>
+                <% data.types.forEach(type => { %>
+                    <a href="https://pokeapi.co/api/v2/type/<%=type.type.name%>"><p class="text-muted text-capitalize m-0"><%= type.type.name %></p></a>
                 <% }); %>
-            </tbody>
-        </table>
-    </div>
-</div>   
-
-    <div class="row" id="row6">
-        <div class="col">
-            <!-- moves -->
-            <h3>MOVES</h3>
-            <table class="table table-hover table-bordered table-sm">
-                <thead>
-                    <tr class="table-danger">
-                        <th>GAME</th>
-                        <th>MOVE</th>
-                        <th>LEVEL LEARNED</th>
-                        <th>METHOD</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% data.moves.forEach(move => { %>
-                        <% move.version_group_details.forEach(moveDetail => { %>
-                            <tr>
-                                <td><%= moveDetail.version_group.name %></td>
-                                <td><%= move.move.name %></td>
-                                <td><%= moveDetail.level_learned_at %></td>
-                                <td><%= moveDetail.move_learn_method.name %></td>
-                            </tr>
-                        <% }); %>
-                    <% }); %>
+            </div>
+            <div class="col-4 col-md-3 col-lg-2 text-center my-1">
+                <i class="fas fa-weight fa-3x text-danger"></i>
+                <p class="lead text-capitalize my-1">abilities</p>
+                <% data.abilities.forEach(ability => { %>
+                    <a href="https://pokeapi.co/api/v2/ability/<%=ability.ability.name%>"><p class="text-muted text-capitalize m-0"><%= ability.ability.name %></p></a>
+                <% }); %>
+            </div>
         </div>
     </div>
+</section>
+         <!-- end of information -->
+ 
+<section id="stats" class="py-2 bg-dark">
+    <div class="container">
+        <!-- title -->
+        <div class="row">
+            <div class="col text-center">
+                <h1 class="display-4 text-uppercase text-white mb-0">
+                    <strong>stats</strong>
+                </h1>
+                <div class="title-underline bg-danger"></div>
+                <p class="mt-1 text-capitalize text-muted">base stats and effort values</p>
+            </div>
+        </div>
+        <!-- end of title -->
+        
+        <!-- information -->
+        <div class="row">
+            <div class="col text-center">
+                <i class="fas fa-dumbbell fa-3x text-danger"></i>
+                <p class="text-uppercase text-muted my-0">base stats</p>
+                <div class="subtitle-underline bg-danger"></div>
+                <% data.stats.forEach(stat => { %>
+                    <p class="text-capitalize text-muted my-0"><%= stat.stat.name %>: <%= stat.base_stat %>
+                <% }); %>
+            </div>
+            <div class="col text-center">
+                <i class="fas fa-star fa-3x text-danger"></i>
+                <p class="lead text-uppercase text-muted my-0">effort values</p>
+                <div class="subtitle-underline bg-danger"></div>
+                <% data.stats.forEach(stat => { %>
+                    <p class="text-capitalize text-muted my-0"><%= stat.stat.name %>: <%= stat.effort %></p>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+</section>
+         <!-- end of information -->       
 
-</div>
+<section id="sprites" class="py-2 bg-white">
+    <div class="container">
+        <!-- title -->
+        <div class="row">
+            <div class="col text-center">
+                <h1 class="display-4 text-uppercase text-dark mb-0">
+                    <strong>sprites</strong>
+                </h1>
+                <div class="title-underline bg-danger"></div>
+                <p class="mt-1 text-capitalize text-muted">in-game sprites</p>
+            </div>
+        </div>
+        <!-- end of title -->
+        
+        <!-- information -->
+        <div class="row text-center">
+            <% for(var key in data.sprites){ %>
+                <% if(data.sprites[key] != null) {%>
+                    <div class="col-4 col-md-3 col-lg-2 my-2 align-bottom">
+                        <p class="card-text text-capitalize mb-0"><%=key.replace(/_/g," ")%></p>
+                        <img src="<%=data.sprites[key]%>" class="img-fluid img-thumbnail border border-danger" alt="<%=key%>">
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+</section>
+         <!-- end of information -->
+
+<section id="games" class="py-2 bg-dark">
+    <div class="container">
+        <!-- title -->
+        <div class="row">
+            <div class="col text-center">
+                <h1 class="display-4 text-uppercase text-white mb-0">
+                    <strong>games</strong>
+                </h1>
+                <div class="title-underline bg-danger"></div>
+                <p class="mt-1 text-capitalize text-muted">available in the following games</p>
+            </div>
+        </div>
+        <!-- end of title -->
+        
+        <!-- information -->
+        <div class="row">
+            <% data.game_indices.forEach(game => { %>
+                <div class="col-4 col-md-3 col-lg-2 m-0">
+                    <a href="https://pokeapi.co/api/v2/version/<%= game.version.name %>"><p class="text-muted text-capitalize">pokemon <%= game.version.name %></p></a>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</section>
+         <!-- end of information --> 
+   
+   
+<section id="heldItems" class="py-2 bg-white">
+    <div class="container">
+        <!-- title -->
+        <div class="row">
+            <div class="col text-center">
+                <h1 class="display-4 text-uppercase text-dark mb-0">
+                    <strong>held items</strong>
+                </h1>
+                <div class="title-underline bg-danger"></div>
+                <p class="mt-1 text-capitalize text-muted">in-game held items</p>
+            </div>
+        </div>
+        <!-- end of title -->
+        
+        <!-- information -->
+        <div class="row">
+            <div class="col">
+                <table class="table table-hover table-bordered table-sm">
+                    <thead>
+                        <tr class="table-danger">
+                            <th class="text-capitalize">game</th>
+                            <th class="text-capitalize">item</th>
+                            <th class="text-capitalize">rarity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% data.held_items.forEach(heldItem => { %>
+                            <% heldItem.version_details.forEach(heldItemVersion => { %>
+                                <tr>
+                                    <td class="text-capitalize">Pokemon <%= heldItemVersion.version.name %></td>
+                                    <td class="text-capitalize"><%= heldItem.item.name %></td>
+                                    <td><%= heldItemVersion.rarity %>%</td>
+                                </tr>
+                            <% }); %>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+         <!-- end of information -->
+
+<section id="locations" class="py-2 bg-white">
+    <div class="container">
+        <!-- title -->
+        <div class="row">
+            <div class="col text-center">
+                <h1 class="display-4 text-uppercase text-dark mb-0">
+                    <strong>locations</strong>
+                </h1>
+                <div class="title-underline bg-danger"></div>
+                <p class="mt-1 text-capitalize text-muted">encounter area locations</p>
+            </div>
+        </div>
+        <!-- end of title -->
+        
+        <!-- information -->
+        <div class="row">
+            <div class="col">
+                <table class="table table-hover table-bordered table-sm">
+                    <thead>
+                        <tr class="table-danger">
+                            <th class="text-capitalize">game</th>
+                            <th class="text-capitalize">area</th>
+                            <th class="text-capitalize">chance</th>
+                            <th class="text-capitalize">level(range)</th>
+                            <th class="text-capitalize">method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% data2.forEach(location => { %>
+                            <% location.version_details.forEach(versionDetail => { %>
+                                <% versionDetail.encounter_details.forEach(encounterDetail => { %>
+                                    <!-- table data for location information -->
+                                    <tr>
+                                        <td class="text-capitalize">Pokemon <%= versionDetail.version.name %></td>
+                                        <td class="text-capitalize"><%= location.location_area.name.replace(/-/g," ") %></td>
+                                        <td><%= encounterDetail.chance %>%</td>
+                                        <td><%= encounterDetail.min_level %>-<%= encounterDetail.max_level %></td>
+                                        <td class="text-capitalize"><%= encounterDetail.method.name %></td>
+                                    </tr>
+                                <% }); %>
+                            <% }); %>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+         <!-- end of information -->
+
+
+<section id="moves" class="py-2 bg-white">
+    <div class="container">
+        <!-- title -->
+        <div class="row">
+            <div class="col text-center">
+                <h1 class="display-4 text-uppercase text-dark mb-0">
+                    <strong>moves</strong>
+                </h1>
+                <div class="title-underline bg-danger"></div>
+                <p class="mt-1 text-capitalize text-muted">moves able to learn</p>
+            </div>
+        </div>
+        <!-- end of title -->
+        
+        <!-- information -->
+        <div class="row">
+            <div class="col">
+                <table class="table table-hover table-bordered table-sm">
+                    <thead>
+                        <tr class="table-danger">
+                            <th class="text-capitalize">game</th>
+                            <th class="text-capitalize">move</th>
+                            <th class="text-capitalize">level</th>
+                            <th class="text-capitalize">method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% data.moves.forEach(move => { %>
+                            <% move.version_group_details.forEach(moveDetail => { %>
+                                <tr>
+                                    <td class="text-capitalize"><%= moveDetail.version_group.name %></td>
+                                    <td class="text-capitalize"><%= move.move.name %></td>
+                                    <td><%= moveDetail.level_learned_at %></td>
+                                    <td class="text-capitalize"><%= moveDetail.move_learn_method.name %></td>
+                                </tr>
+                            <% }); %>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+         <!-- end of information -->
 
 <% include ../partials/footer.ejs %>

@@ -1,7 +1,19 @@
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Arvo', serif;
 }
 
-h3 {
-    background-color: gray;
+.height {
+    min-height: 100vh;
+}
+
+.title-underline {
+    width: 200px;
+    height: 5px;
+    margin: 0 auto;
+}
+
+.subtitle-underline {
+    width: 100px;
+    height: 2px;
+    margin: 0 auto;
 }

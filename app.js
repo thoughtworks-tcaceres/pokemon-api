@@ -15,9 +15,9 @@ app.get("/", (req, res) => {
    res.render("index"); 
 });
 
-app.post("/pokemon/", (req, res) => {
-    var url1 = "https://pokeapi.co/api/v2/pokemon/" + req.body.pokeName;
-    var url2 = "https://pokeapi.co/api/v2/pokemon/" + req.body.pokeName + "/encounters";
+app.get("/pokemon/", (req, res) => {
+    var url1 = "https://pokeapi.co/api/v2/pokemon/" + req.query.pokeName;
+    var url2 = "https://pokeapi.co/api/v2/pokemon/" + req.query.pokeName + "/encounters";
     async.parallel([
         function(next){
             request(url1, (error, response, body) => {
